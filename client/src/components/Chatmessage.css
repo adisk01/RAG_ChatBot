@@ -1,0 +1,20 @@
+.follow-up-buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.follow-up-button-container {
+    display: flex;
+    align-items: center;
+}
+
+.follow-up-button-container button {
+    margin-right: 5px; /* Adjust as needed */
+}
+
+.follow-up-question {
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

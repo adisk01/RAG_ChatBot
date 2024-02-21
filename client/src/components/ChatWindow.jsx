@@ -4,7 +4,9 @@ import dayjs from "dayjs";
 import logo from "/images/logo_stockgro.png";
 import InputBox from "./InputBox";
 import axios from "axios";
+import ChatMessage from "./Chatmessage";
 import "../assets/ChatWindow.css";
+
 const ChatWindow = () => {
   const chatContainerRef = useRef(null);
   const [loading, setLoading] = useState(false);
@@ -18,12 +20,11 @@ const ChatWindow = () => {
     if (!inputText) {
       return;
     }
-    console.log(inputText)
+
     setMessages((prevMessages) => [
       ...prevMessages,
       { text: inputText, sender: "user", timestamp: new Date() },
     ]);
-
     setLoading(true);
 
     try {
@@ -34,21 +35,26 @@ const ChatWindow = () => {
           "Content-Type": "application/json",
         },
       });
-      setTimeout(6000);
+
+      const { answer } = response.data;
+
       setMessages((prevMessages) => [
         ...prevMessages,
         {
-          text: response.data.answer,
+          text: answer,
           sender: "ai",
           timestamp: new Date(),
         },
       ]);
     } catch (error) {
       console.error("Error:", error);
-      // Handle error, e.g., display an error message to the user
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleFollowUpClick = (followUpQuestion) => {
+    sendMessage(followUpQuestion);
   };
 
   return (
@@ -64,16 +70,12 @@ const ChatWindow = () => {
       </div>
       <div className="chat-container" ref={chatContainerRef}>
         {messages.map((message, index) => (
-          <div
-            key={index}
-            className={`message ${message.sender === "user" ? "user" : "ai"}`}
-          >
-            <p className="message-text">{message.text}</p>
-            <span className={`time ${message.sender === "user" ? "user" : "ai"}`}>
-              {message.timestamp
-                ? dayjs(message.timestamp).format("DD.MM.YYYY HH:mm:ss")
-                : ""}
-            </span>
+          <div key={index}>
+            <ChatMessage
+              text={message.text}
+              sender={message.sender}
+              onFollowUpClick={handleFollowUpClick}
+            />
           </div>
         ))}
         {loading && (

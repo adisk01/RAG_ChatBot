@@ -10,7 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
     "@google/generative-ai": "^0.1.2",
+    "@mui/icons-material": "^5.15.10",
+    "@mui/material": "^5.15.10",
     "@uiw/react-md-editor": "^4.0.1",
     "axios": "^1.6.7",
     "dayjs": "^1.11.10",
